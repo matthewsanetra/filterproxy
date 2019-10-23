@@ -5,8 +5,8 @@ I initially won't be working on adding CSS & JS support, but once I am able to m
 
 
 ### TODO
-[ ] Nginx/caddy (Only passthrough /proxy)
-[ ] Make an index site
-[ ] Allow users to enter their own word that censored items get replaced with
-[ ] Replace urls in the html with a proxy url
-[ ] Containerize
+- [ ] Nginx/caddy (Only passthrough /proxy)
+- [ ] Make an index site
+- [ ] Allow users to enter their own word that censored items get replaced with
+- [ ] Replace urls in the html with a proxy url
+- [ ] Containerize
