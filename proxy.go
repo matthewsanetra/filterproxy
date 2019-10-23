@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"io"
+	"log"
 	"strings"
 
 	"regexp"
@@ -54,5 +55,15 @@ func handleProxyRequest(ctx *fasthttp.RequestCtx) {
 	fasthttp.Do(req, resp)
 
 	ctx.SetContentType(string(resp.Header.ContentType()))
-	ctx.SetBody(censor.ReplaceAll(resp.Body(), []byte("censored")))
+	ctx.SetStatusCode(resp.StatusCode())
+
+	body, err := censorBody(resp.Body(), censor, string(url_rot13), string(censored_expressions_rot13))
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
+		ctx.SetBody([]byte("unable to censor, error logged"))
+		log.Println(err)
+		return
+	}
+
+	ctx.SetBody([]byte(body))
 }
