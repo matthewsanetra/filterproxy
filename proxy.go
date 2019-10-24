@@ -22,7 +22,8 @@ func handleProxyRequest(ctx *fasthttp.RequestCtx) {
 	_, err := io.Copy(&censored_buf, r)
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
-		ctx.SetBody([]byte("unable to write from rot13reader to string builder buffer for regex"))
+		ctx.SetBody([]byte("error writing from rot13reader to string builder buffer for regex, error logged"))
+		log.Println(err)
 		return
 	}
 	censored_expression := censored_buf.String()
@@ -40,7 +41,8 @@ func handleProxyRequest(ctx *fasthttp.RequestCtx) {
 	_, err = io.Copy(&url_buf, r)
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
-		ctx.SetBody([]byte("unable to write from rot13reader to string builder buffer for url"))
+		ctx.SetBody([]byte("error writing from rot13reader to string builder buffer for url, error logged"))
+		log.Println(err)
 		return
 	}
 	url := url_buf.String()
@@ -54,16 +56,24 @@ func handleProxyRequest(ctx *fasthttp.RequestCtx) {
 	req.SetRequestURI(url)
 	fasthttp.Do(req, resp)
 
-	ctx.SetContentType(string(resp.Header.ContentType()))
+	contentType := string(resp.Header.ContentType())
+
+	ctx.SetContentType(contentType)
 	ctx.SetStatusCode(resp.StatusCode())
 
-	body, err := censorBody(resp.Body(), censor, string(url_rot13), string(censored_expressions_rot13))
+	if !isText(contentType) {
+		ctx.SetBody(resp.Body())
+		return
+	}
+
+	body, err := editLinks(resp.Body(), string(url_rot13), string(censored_expressions_rot13))
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
-		ctx.SetBody([]byte("unable to censor, error logged"))
+		ctx.SetBody([]byte("error editing links, error logged"))
 		log.Println(err)
 		return
 	}
 
+	body = censorBody(body, censor)
 	ctx.SetBody([]byte(body))
 }
