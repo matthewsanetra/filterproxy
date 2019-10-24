@@ -8,8 +8,5 @@ CSS and Images work, now we can think about injecting javascript into page sourc
 
 ### TODO
 - [ ] Nginx/caddy (Only passthrough /proxy)
-- [x] Fix images not being handled correctly
-- [x] Make an index site
 - [ ] Allow users to enter their own word that censored items get replaced with
-- [x] Replace URLs in the html with a proxy URL
 - [ ] Containerize
