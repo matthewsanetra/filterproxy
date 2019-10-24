@@ -10,7 +10,22 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func censorBody(body []byte, censorRegex *regexp.Regexp, originalUrl, originalCensor string) (string, error) {
+func isText(MIMEtype string) bool {
+	switch {
+	case strings.HasPrefix(MIMEtype, "text/html"):
+		return true
+	case strings.HasPrefix(MIMEtype, "text/javascript"):
+		return true
+	case strings.HasPrefix(MIMEtype, "application/json"):
+		return true
+	case strings.HasPrefix(MIMEtype, "text/plain"):
+		return true
+	default:
+		return false
+	}
+}
+
+func editLinks(body []byte, originalUrl, originalCensor string) (string, error) {
 	reader := bytes.NewReader(body)
 
 	doc, err := goquery.NewDocumentFromReader(reader)
@@ -40,6 +55,10 @@ func censorBody(body []byte, censorRegex *regexp.Regexp, originalUrl, originalCe
 		link, err = url.QueryUnescape(link)
 		if err != nil {
 			errors = append(errors, err)
+			return
+		}
+
+		if strings.HasPrefix(link, "javascript:") {
 			return
 		}
 
@@ -85,8 +104,9 @@ func censorBody(body []byte, censorRegex *regexp.Regexp, originalUrl, originalCe
 	if err != nil {
 		return "", err
 	}
-
-	new_body = censorRegex.ReplaceAllString(new_body, "censored")
-
 	return new_body, nil
+}
+
+func censorBody(body string, censorRegex *regexp.Regexp) string {
+	return censorRegex.ReplaceAllString(body, "censored")
 }
