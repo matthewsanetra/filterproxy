@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>filterproxy</title>
+
+		<link href="//mincss.com/entireframework.min.css" rel="stylesheet" type="text/css">
+        <link href="main.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+            <div class="row">
+                <div class="col c12">
+                    <h1>filterproxy</h1>
+                    <p id="subheading">By Matthew Sanetra <a href="https://github.com/matthewsanetra">(Github)</a></p>
+                    <p>The fastest way to bypass any censorship at work or school</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col c12">
+                    <h2>Get started</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col c4">
+                    <label for="url">URL: </label><input type="text" id="url" oninput="urlChanged();">
+                    <br><br>
+                </div>
+                <div class="col c4">
+                    <label for="filtered">Filtered words (seperate by new lines, case insensetive):</label>
+                    <br><br>
+                    <textarea rows="3" id="filtered" oninput="filterChanged();"></textarea>
+                </div>
+                <div class="col c4">
+                    <!-- <a id="link"></a> -->
+                    <a class="btn btn-sm" id="go">Go!</a><br><br>
+                    <a href="" id="link"></a>
+                </div>
+            </div>
+        </div>
+        <script src="main.js"></script>
+	</body>
+</html>
