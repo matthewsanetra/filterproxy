@@ -1,14 +1,19 @@
 # filterproxy
-A fast in-browser proxy that can replace any expression/key words from HTML.
+A fast in-browser proxy that can replace any expression/key words from HTML.  
+Pretty functional; you can browse old.reddit.com perfectly well, not to mention less comlicated sites.
 
-Currently pretty functional, but work on patching javascript AJAX/XHR requests needs to be worked on.
-Only supports GET requests, and form submissions don't work.
+## Deploying
+Everything is set up with docker.  
+Deploying is as easy as cloning this repo and running `docker-compose build && docker-compose up`  
+The proxy is then deployed at 127.0.0.1:8080
 
+### Known Issues
+- XHR Requests don't go through proxy
+- Only GET is supported
+- HTML forms don't work
+- You have to modify source code in a few places to get the proxy to run on your own domain/ip rather than on localhost
 
-### TODO
-- [x] Nginx ~~/caddy~~ (Only passthrough /proxy)
-- [ ] Allow users to enter their own word that censored items get replaced with
-- [x] Containerize
-- [ ] More than one method (currently only GET is supported)
-- [ ] Patch javascript XHR requests
-- [ ] Modify forms to use the proxy and work
+### Possible future features
+- Solutions for the issues mentioned above
+- Allow users to enter their own word that censored expressions get replaced with
+- Make tests and setup continuous integration
