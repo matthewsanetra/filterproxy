@@ -7,7 +7,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-const addr = "127.0.0.1:8080"
+const addr = "0.0.0.0:8080"
 
 func main() {
 	if err := fasthttp.ListenAndServe(addr, requestHandler); err != nil {
@@ -16,8 +16,6 @@ func main() {
 }
 
 func requestHandler(ctx *fasthttp.RequestCtx) {
-	// TODO: SERVE INDEX STATIC FILE WITH NGINX, ONLY PASSTHROUGH /proxy
-
 	if bytes.HasPrefix(ctx.Path(), []byte("/proxy")) {
 		handleProxyRequest(ctx)
 	} else {
