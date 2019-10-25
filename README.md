@@ -6,9 +6,9 @@ Only supports GET requests, and form submissions don't work.
 
 
 ### TODO
-- [ ] Nginx/caddy (Only passthrough /proxy)
+- [x] Nginx ~~/caddy~~ (Only passthrough /proxy)
 - [ ] Allow users to enter their own word that censored items get replaced with
-- [ ] Containerize
+- [x] Containerize
 - [ ] More than one method (currently only GET is supported)
 - [ ] Patch javascript XHR requests
 - [ ] Modify forms to use the proxy and work
